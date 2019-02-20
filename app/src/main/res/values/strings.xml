@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">JuanInstagramApp</string>
+    <string name="user_hint">username</string>
+    <string name="pw_hint">Enter your password</string>
+    <string name="login">login</string>
+    <string name="description_hint">Enter a description</string>
+</resources>

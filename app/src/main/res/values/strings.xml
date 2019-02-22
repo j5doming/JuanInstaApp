@@ -5,4 +5,6 @@
     <string name="login">login</string>
     <string name="description_hint">Enter a description</string>
     <string name="remember_me">Remember me</string>
+    <string name="take_picture">Take picture</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -23,13 +23,13 @@
         android:id="@+id/btnCaptureImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Take picture" />
+        android:text="@string/take_picture" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:text="Submit" />
+        android:text="@string/submit" />
 
 </LinearLayout>

@@ -137,23 +137,6 @@ public class ComposeFragment extends Fragment {
         });
     }
 
-    private void queryPost() {
-        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
-        postQuery.include(Post.KEY_USER);
-        postQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if ( e != null ) {
-                    Log.e(TAG, "Error querying post: ", e);
-                    return;
-                }
-                for (Post post : posts) {
-                    Log.d(TAG, "Post: " + post.getDescription() + ". User: " + post.getUser().getUsername());
-                }
-            }
-        });
-    }
-
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
         // Use `getExternalFilesDir` on Context to access package-specific directories.

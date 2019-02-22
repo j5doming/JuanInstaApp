@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,23 +22,25 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getName();
 
     private BottomNavigationView bottomNavigationView;
-    private boolean rememberMe;
+    private SwipeRefreshLayout swipeContainer;
+
+//    private boolean rememberMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeContainer = findViewById(R.id.swipeContainer);
+
         final FragmentManager fragmentManager = getSupportFragmentManager();
-
-
-
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d(TAG, "Deciding which fragment to inflate");
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         // set default fragment for screen
         bottomNavigationView.setSelectedItemId(R.id.action_home);
 
+
     }
 
     @Override
@@ -77,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         if ( item.getItemId() == R.id.logout ) {
             Log.d(TAG, "Logging out");
             ParseUser.logOut();
-            ParseUser currentUser = ParseUser.getCurrentUser();
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
             finish();

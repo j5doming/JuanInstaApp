@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class PostsFragment extends Fragment {
 
     protected PostsAdapter adapter;
     protected List<Post> posts;
+    protected SwipeRefreshLayout swipeContainer;
 
     private RecyclerView rvPosts;
 
@@ -38,6 +40,8 @@ public class PostsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+
         rvPosts = view.findViewById(R.id.rvPosts);
         // create the data source and adapter
         posts = new ArrayList<>();
@@ -46,6 +50,21 @@ public class PostsFragment extends Fragment {
         // set the adapter and layout manager on RV
         rvPosts.setAdapter(adapter);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d(TAG, "Refreshing data");
+                queryPost();
+            }
+        });
+
+        swipeContainer.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
 
         queryPost();
     }
@@ -63,6 +82,7 @@ public class PostsFragment extends Fragment {
             public void done(List<Post> mPosts, ParseException e) {
                 if ( e != null ) {
                     Log.e(TAG, "Error querying post: ", e);
+                    swipeContainer.setRefreshing(false);
                     return;
                 }
 
@@ -73,6 +93,9 @@ public class PostsFragment extends Fragment {
                 for (Post post : posts) {
                     Log.d(TAG, "Post: " + post.getDescription() + ". User: " + post.getUser().getUsername());
                 }
+
+                Log.d(TAG, "Success querying posts");
+                swipeContainer.setRefreshing(false);
             }
         });
     }

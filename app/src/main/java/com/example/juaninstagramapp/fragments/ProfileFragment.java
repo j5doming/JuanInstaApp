@@ -1,6 +1,11 @@
 package com.example.juaninstagramapp.fragments;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 
 import com.example.juaninstagramapp.Post;
 import com.parse.FindCallback;
@@ -25,11 +30,13 @@ public class ProfileFragment extends PostsFragment {
 
 
 
+
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> mPosts, ParseException e) {
                 if ( e != null ) {
-                    Log.e(TAG, "Error querying post: ", e);
+                    Log.e(TAG, "Error querying user posts: ", e);
+                    swipeContainer.setRefreshing(false);
                     return;
                 }
 
@@ -40,6 +47,9 @@ public class ProfileFragment extends PostsFragment {
                 for (Post post : posts) {
                     Log.d(TAG, "Post: " + post.getDescription() + ". User: " + post.getUser().getUsername());
                 }
+
+                Log.d(TAG, "Success querying user posts");
+                swipeContainer.setRefreshing(false);
             }
         });
     }

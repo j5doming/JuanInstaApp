@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/fl_bottom_margin"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation">
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
     </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView

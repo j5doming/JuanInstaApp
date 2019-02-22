@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.parse.LogInCallback;
@@ -19,19 +20,22 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private CheckBox cbRememberMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getIntent();
 
         ParseUser currUser = ParseUser.getCurrentUser();
-
-        if ( currUser != null ) goToMainActivity();
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        cbRememberMe = findViewById(R.id.cbRememberMe);
+
+        if (currUser != null ) goToMainActivity();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goToMainActivity() {
         Log.d(TAG, "Login attempt successful, navigating to main activity");
         Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("RememberMe", cbRememberMe.isChecked());
         startActivity(i);
         // activity won't be in stack so pressing back won't return here
         finish();

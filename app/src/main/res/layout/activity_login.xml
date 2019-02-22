@@ -22,11 +22,17 @@
         android:layout_height="match_parent"
         app:passwordToggleEnabled="true">
 
+        <CheckBox
+            android:id="@+id/cbRememberMe"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/remember_me"/>
+
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login"/>
+            android:text="@string/login" />
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/etPassword"

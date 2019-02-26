@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -15,12 +16,17 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = LoginActivity.class.getName();
+    public static final String TAG = LoginActivity.class.getName();
+    public static final int SIGN_UP_REQUEST_CODE = 100;
 
     private EditText etUsername;
     private EditText etPassword;
     private Button btnLogin;
+    private Button btnSignUp;
     private CheckBox cbRememberMe;
+    
+    private ParseUser currUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +34,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getIntent();
 
-        ParseUser currUser = ParseUser.getCurrentUser();
+        currUser = ParseUser.getCurrentUser();
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnSignUp = findViewById(R.id.btnSignUp);
         cbRememberMe = findViewById(R.id.cbRememberMe);
 
         if (currUser != null ) goToMainActivity();
@@ -43,6 +50,13 @@ public class LoginActivity extends AppCompatActivity {
                 String username = etUsername.getText().toString();
                 String password = etUsername.getText().toString();
                 login(username, password);
+            }
+        });
+
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSignUpActivity();
             }
         });
     }
@@ -73,5 +87,26 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(i);
         // activity won't be in stack so pressing back won't return here
         finish();
+    }
+
+    private void goToSignUpActivity() {
+        Log.d(TAG, "Navigating to sign up activity");
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivityForResult(i, SIGN_UP_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ( requestCode == SIGN_UP_REQUEST_CODE && resultCode == RESULT_OK) {
+            if ( currUser == null) {
+                // log in with new user
+                String username = data.getStringExtra("username");
+                String password = data.getStringExtra("password");
+                login(username, password);
+            } else {
+                Toast.makeText(this, "Log out of all accounts first!", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

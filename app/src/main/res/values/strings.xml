@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">JuanInstagramApp</string>
+    <string name="new_user_hint">Enter a username. (6 or more characters)</string>
+    <string name="new_pw_hint">Enter a password</string>
+    <string name="new_email_hint">Enter a valid email address</string>
+    <string name="new_sign_up">Sign me up!</string>
+
     <string name="user_hint">username</string>
     <string name="pw_hint">Enter your password</string>
     <string name="login">login</string>
+
     <string name="description_hint">Enter a description</string>
     <string name="remember_me">Remember me</string>
     <string name="take_picture">Take picture</string>
